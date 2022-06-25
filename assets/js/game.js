@@ -138,16 +138,33 @@ var shop = function()
     switch (shopOptionPrompt)
     {
         case "refill":
-            window.alert("Refilling player's health by 20 for 7 credits.");
-            playerHealth = playerHealth + 20;
-            playerMoney = playerMoney - 7;
+        case "REFILL":
+            if (playerMoney >= 7)
+            {
+                window.alert("Refilling player's health by 20 for 7 credits.");
+                playerHealth = playerHealth + 20;
+                playerMoney = playerMoney - 7;
+            }
+            else
+            {
+                window.alert("Sorry, you don't have enough credits!")
+            }
             break;
         case "upgrade":
-            window.alert("Upgrading player's attack by 6 for 7 credits.");
-            playerAttack = playerAttack + 6;
-            playerMoney = playerMoney -7;
+        case "UPGRADE":
+            if (playerMoney >= 7)
+            {
+                window.alert("Upgrading player's attack by 6 for 7 credits.");
+                playerAttack = playerAttack + 6;
+                playerMoney = playerMoney - 7;
+            }
+            else
+            {
+                window.alert("Sorry, you don't have enough credits!")
+            }
             break;
         case "leave":
+        case "LEAVE":
             window.alert("Back to the fight!");
             break;
         default:

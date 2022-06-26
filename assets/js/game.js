@@ -27,18 +27,23 @@ var fight = function(enemyName)
             var confirmSkip = window.confirm("Are you sure you'd like pay 10 credits to skip?");
 
             //if true
-            if (confirmSkip)
+            if (confirmSkip && playerMoney >= 10)
             {
                 window.alert(playerName + " has chosen to skip the fight.");
                 //subtract money
-                playerMoney = playerMoney - 10;
+                playerMoney = Math.max(0, playerMoney - 10);
                 console.log("playerMoney", playerMoney);
                 break;
             }
+            else
+            {
+                window.alert("Sorry, you don't have enough credits to skip this fight. You are forced to attack!");
+            }
         }
 
-        //enemyHealth - playerAttack to update enemyHealth variable
-        enemyHealth = enemyHealth - playerAttack;
+        //enemy health deducted after player attack
+        var damage = randomNumber(playerAttack - 3, playerAttack);
+        enemyHealth = Math.max(0, enemyHealth - damage);
 
         //Log message
         console.log(
@@ -57,8 +62,9 @@ var fight = function(enemyName)
             window.alert(enemyName + " still has " + enemyHealth + " health left.");
         }
 
-        //playerHealth - enemyAttack to update playerHealth variable
-        playerHealth = playerHealth - enemyAttack;
+        //player health deducted after enemy attack
+        var damage = randomNumber(enemyAttack - 3, enemyAttack);
+        playerHealth = Math.max(0, playerHealth - enemyAttack);
 
         //Log message
         console.log(
@@ -91,7 +97,7 @@ var startGame = function() //start a new game
         {
             window.alert("Welcome to round " + ( i + 1 ) + " of Robot Gladiators!") //welcome message and round designation +1 bc arrays start at 0
             var pickedEnemyName = enemyNames[i]; //assign variable to the result of the <for>
-            enemyHealth = 50;  //reset variable health state
+            enemyHealth = randomNumber(40, 60);  //reset variable health state
             fight(pickedEnemyName);  //fight reset variable
             if (playerHealth > 0 && i < enemyNames.length - 1) //access shop if i can still increase
             {
@@ -142,8 +148,8 @@ var shop = function()
             if (playerMoney >= 7)
             {
                 window.alert("Refilling player's health by 20 for 7 credits.");
-                playerHealth = playerHealth + 20;
-                playerMoney = playerMoney - 7;
+                playerHealth = playerHealth + 50;
+                playerMoney = playerMoney - 10;
             }
             else
             {
@@ -172,6 +178,13 @@ var shop = function()
             shop();
             break;
     }
+};
+
+//generate a random numeric value based on a local min and max value
+var randomNumber = function(min, max)
+{
+    var value = Math.floor(Math.random() * (max - min + 1) + min);
+    return value;
 };
 
 startGame(); //call startGame function

@@ -144,7 +144,23 @@ var endGame = function() //end the game
 {
     if (playerInfo.health > 0)
     {
-        window.alert(playerInfo.name + " has survived the game with a score of " + playerInfo.money + "!")
+        window.alert(playerInfo.name + " has survived the game with a score of " + playerInfo.money + "!");
+        var highScore = localStorage.getItem("highscore");
+        if (highScore === null)
+        {
+            highScore = 0;
+        }
+        if (playerInfo.money > highScore)
+        {
+            localStorage.setItem("highscore", playerInfo.money);
+            localStorage.setItem("name", playerInfo.name);
+
+            alert(playerInfo.name + " has the new high score of " + playerInfo.money + "!");
+        }
+        else
+        {
+            alert(playerInfo.name + " did not beat the high score of " + highScore +". Maybe next time!");
+        }
     }
 
     var playAgainConfirm = window.confirm("Would you like to play again?")
@@ -154,7 +170,7 @@ var endGame = function() //end the game
         }
         else
         {
-            window.alert("Thank you for playing Robot Gladiators! Come back soon!")
+            window.alert("Thank you for playing Robot Gladiators! Come back soon!");
         }
 }; //end of endGame function
 
@@ -178,7 +194,7 @@ var shop = function()
             window.alert("Back to the fight!");
             break;
         default:
-            window.alert("Please type in a valid option: REFILL, UPGRADE, or LEAVE.");
+            window.alert("Please type in a valid option: 1 (REFILL), 2 (UPGRADE), or 3 (LEAVE).");
             shop();
             break;
     }
@@ -255,9 +271,3 @@ var enemyInfo =
 ];
 
 startGame(); //call startGame function
-
-// Game States
-// "WIN" - Player robot has defeated all enemy-robots
-//    * Fight all enemy-robots
-//    * Defeat each enemy-robot
-// "LOSE" - Player robot's health is zero or less

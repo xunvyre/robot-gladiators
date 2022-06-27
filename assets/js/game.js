@@ -105,7 +105,6 @@ var startGame = function() //start a new game
         if (playerInfo.health > 0)
         {
             window.alert("Welcome to round " + ( i + 1 ) + " of Robot Gladiators!"); //welcome message and round designation +1 bc arrays start at 0
-            debugger;
             var pickedEnemyObj = enemyInfo[i]; //assign variable to the result of the <for>
             pickedEnemyObj.health = randomNumber(40, 60);  //reset variable health state
             fight(pickedEnemyObj);  //fight reset variable
@@ -149,20 +148,19 @@ var shop = function()
 {
     console.log("Shop entered.")
     //shop prompt function
-    var shopOptionPrompt = window.prompt("Would you like to REFILL your health, UPGRADE your attack, or LEAVE the shop? Choose one to enter below: REFILL, UPGRADE, LEAVE.");
+    var shopOptionPrompt = window.prompt("Would you like to REFILL your health, UPGRADE your attack, or LEAVE the shop? Type 1 to REFILL, 2 to UPGRADE, and 3 to LEAVE the shop.");
+    //convert string to interger
+    shopOptionPrompt = parseInt(shopOptionPrompt);
     //switch statement for shop functionality
     switch (shopOptionPrompt)
     {
-        case "refill":
-        case "REFILL":
+        case 1:
             playerInfo.refillHealth();
             break;
-        case "upgrade":
-        case "UPGRADE":
+        case 2:
             playerInfo.upgradeAttack();
             break;
-        case "leave":
-        case "LEAVE":
+        case 3:
             window.alert("Back to the fight!");
             break;
         default:
@@ -205,20 +203,20 @@ var playerInfo =
         }
         else
         {
-            window.alert("You don't have enough credits!")
+            window.alert("You don't have enough credits to shop! Back to the fight.")
         }
     },
     upgradeAttack: function()
     {
         if(this.money >= 7)
         {
-            window.alert("Upgrading" + this.name + "'s attack by 6 for 7 credits.")
+            window.alert("Upgrading " + this.name + "'s attack by 6 for 7 credits.")
             this.attack += 6;
             this.money -= 7;
         }
         else
         {
-            window.alert("You don't have enough credits!")
+            window.alert("You don't have enough credits to shop! Back to the fight.")
         }
     }
 };

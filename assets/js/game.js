@@ -4,34 +4,43 @@ var playerHealth = 100;
 var playerAttack= 10;
 var playerMoney = 10;*/
 
+var fightOrSkip = function()
+{
+    //ask player to fight or skip
+    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter FIGHT or SKIP below:");
+    if (promptFight === "" || promptFight === null)
+    {
+        window.alert("Please choose a valid answer: FIGHT or SKIP?");
+        return fightOrSkip();
+    }
+    //If player choses SKIP:
+    if (promptFight === "skip" || promptFight === "SKIP")
+    {
+        //confirm
+        var confirmSkip = window.confirm("Are you sure you'd like pay 10 credits to skip?");
+
+        //if true
+        if (confirmSkip && playerInfo.money >= 10)
+        {
+            window.alert(playerInfo.name + " has chosen to skip the fight.");
+            //subtract money
+            playerInfo.money = Math.max(0, playerInfo.money - 10);
+            console.log("playerInfo.money", playerInfo.money);
+            shop();
+        }
+        else
+        {
+            window.alert("Sorry, you don't have enough credits to skip this fight. You are forced to attack!");
+        }
+    }
+}
+
 var fight = function(enemy)
 {
     //while the enemy is alive
     while(playerInfo.health > 0 && enemy.health > 0)
     {
-        //fight inquiry
-        var promptFight = window.prompt("Would you like to FIGHT or SKIP this round? Enter FIGHT or SKIP below.")
-        
-        //If player choses SKIP:
-        if (promptFight === "skip" || promptFight === "SKIP" || promptFight === "Skip")
-        {
-            //confirm
-            var confirmSkip = window.confirm("Are you sure you'd like pay 10 credits to skip?");
-
-            //if true
-            if (confirmSkip && playerInfo.money >= 10)
-            {
-                window.alert(playerInfo.name + " has chosen to skip the fight.");
-                //subtract money
-                playerInfo.money = Math.max(0, playerInfo.money - 10);
-                console.log("playerInfo.money", playerInfo.money);
-                break;
-            }
-            else
-            {
-                window.alert("Sorry, you don't have enough credits to skip this fight. You are forced to attack!");
-            }
-        }
+        fightOrSkip();
 
         //enemy health deducted after player attack
         var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);

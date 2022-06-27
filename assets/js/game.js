@@ -50,7 +50,6 @@ var fight = function(enemy)
         isPlayerTurn = false;
     }
     console.log(isPlayerTurn)
-    debugger;
     
     //while the enemy is alive
     while(playerInfo.health > 0 && enemy.health > 0)

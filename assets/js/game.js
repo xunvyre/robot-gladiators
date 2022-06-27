@@ -4,33 +4,52 @@ var playerHealth = 100;
 var playerAttack= 10;
 var playerMoney = 10;*/
 
+//generate a random numeric value based on a local min and max value
+var randomNumber = function(min, max)
+{
+    var value = Math.floor(Math.random() * (max - min + 1) + min);
+    return value;
+};
+
+var fightOrSkip = function()
+{
+    var promptFight = window.prompt ("Would you like to FIGHT or SKIP this round? Enter FIGHT or SKIP below:");
+    
+    //conditional recursive call
+    if (promptFight === "" || promptFight === null)
+    {
+        window.alert("Invalid answer! Please try again.");
+        return fightOrSkip();
+    }
+
+    promptFight = promptFight.toLowerCase();
+
+    if (promptFight === "skip")
+    {
+        var confirmSkip = window.confirm("Are you sure you want to pay 10 credits to skip this round?");
+        if (confirmSkip && playerInfo.money >= 10)
+        {
+            window.alert(playerInfo.name + " has decided to skip this round.")
+            playerInfo.money = Math.max(0, playerInfo.money - 10);
+            return true;
+        }
+        else
+        {
+            window.alert("You don't have enough credits to skip this round! " + playerInfo.name + " is forced to attack!")
+        }
+
+        return false;
+    }
+}
+
 var fight = function(enemy)
 {
     //while the enemy is alive
     while(playerInfo.health > 0 && enemy.health > 0)
     {
-        //fight inquiry
-        var promptFight = window.prompt("Would you like to FIGHT or SKIP this round? Enter FIGHT or SKIP below.")
-        
-        //If player choses SKIP:
-        if (promptFight === "skip" || promptFight === "SKIP" || promptFight === "Skip")
+        if (fightOrSkip())
         {
-            //confirm
-            var confirmSkip = window.confirm("Are you sure you'd like pay 10 credits to skip?");
-
-            //if true
-            if (confirmSkip && playerInfo.money >= 10)
-            {
-                window.alert(playerInfo.name + " has chosen to skip the fight.");
-                //subtract money
-                playerInfo.money = Math.max(0, playerInfo.money - 10);
-                console.log("playerInfo.money", playerInfo.money);
-                break;
-            }
-            else
-            {
-                window.alert("Sorry, you don't have enough credits to skip this fight. You are forced to attack!");
-            }
+            break; //if fightOrSkip is true, break the loop
         }
 
         //enemy health deducted after player attack
@@ -151,13 +170,6 @@ var shop = function()
             shop();
             break;
     }
-};
-
-//generate a random numeric value based on a local min and max value
-var randomNumber = function(min, max)
-{
-    var value = Math.floor(Math.random() * (max - min + 1) + min);
-    return value;
 };
 
 var getPlayerName = function()
